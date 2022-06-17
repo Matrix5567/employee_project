@@ -1,0 +1,70 @@
+{% extends 'sidebar.html' %}
+{% block content %}
+<style>
+    #toppanel{
+    position:relative;
+    top:20px;
+    margin-left:300px;
+    background:white;
+    width:75%;
+    height:50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;
+    }
+    .btn1:hover{
+    background-color:blue;
+    color:white;
+    }
+    .btn2:hover{
+    background-color:blue;
+    color:white;
+    }
+    #container1{
+    position:relative;
+    top:45px;
+    margin-left:300px;
+    background:white;
+    width:35%;
+    height:445px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;
+    }
+    #container2{
+    position:relative;
+    top:-409px;
+    margin-left:869px;
+    background:white;
+    width:37.5%;
+    height:446px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;
+    }
+</style>
+<body bgcolor="EBF0FE">
+<div id="toppanel">
+    <button onclick="location.href='/employeelist'" class="btn1" style="position:relative;left:10px;top:10px;width:15%;border:2px white;border-radius:10px;" >Employee List</button>
+    <button onclick="location.href='/addemployee'" class="btn2" style="position:relative;left:25px;top:10px;width:15%;border:2px white;border-radius:10px;" >Add Employee</button>
+</div>
+<div id="container1">
+    <h4 style="position:relative;left:32px;top:47px;">First Name</h4>
+     <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:50px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your First Name" name="firstname">
+    <h4 style="position:relative;left:32px;top:51px;">Last Name</h4>
+    <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:56px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Last Name" name="lastname">
+    <h4 style="position:relative;left:32px;top:60px;">Email Address</h4>
+    <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:65px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Email Address" name="lastname">
+</div>
+<div id="container2">
+    <h4 style="position:relative;left:32px;top:45px;">Role</h4>
+    <select style="margin-left:31px;width:85%;height:35px;position:relative;top:46px;border-color:blue;border-radius:5px;border-width: 1px;" id="role" name="role">
+    <option value="user">user</option>
+    <option value="user2">user2</option>
+    <option value="user3">user3</option>
+    <option value="user4">user4</option>
+  </select>
+    <h4 style="position:relative;left:32px;top:52px;">Password</h4>
+     <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:53px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Password" name="password">
+    <a style="position:relative;top:71px;left:31px;color:blue;" href="#">Change Password</a>
+</div>
+<button onclick="location.href='#'"  style="position:relative;left:1328px;top:-376px;width:7%;border:2px white;border-radius:10px;background-color:blue;color:white;" >+ Create</button>
+</body>
+{% endblock  %}

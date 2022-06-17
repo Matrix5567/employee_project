@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        .container {
+        margin-top: 150px;
+        margin-left:30%;
+        box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;
+        border-radius: 25px;
+        height:500px;
+        width:40%;
+        background:white;
+        padding:20px;
+
+}
+h2{
+padding-left:35px;
+font-style:roboto;
+position:relative;
+top:-40px;
+}
+p1{
+padding-left:35px;
+font-style:roboto;
+position:relative;
+top:-40px;
+}
+
+
+    </style>
+</head>
+{% load static %}
+<body bgcolor="EBF0FE">
+<div class="container">
+    <img style="padding-right:27%;padding-left:28%;height:110px" src = "{% static 'images/logo1.png' %}" alt = "logo">
+    <h2>Login</h2>
+    <p style="padding-left:35px;position:relative;top:-50px;font-size:13px;">Welcome Back,Please enter your details</p>
+    <form action="console" method="post">
+        {% csrf_token %}
+    <p1>Email ID</p1><br>
+    <input type ="text"style="margin-left:35px;width:85%;height:35px;position:relative;top:-20px;border-color:blue;border-width: 1px;border-radius:6px;"placeholder="Enter your Mail ID" name="email">
+        <p1 style="position:relative;top:-5px;">Password</p1><br>
+        <input type="password" style="margin-left:35px;width:85%;height:35px;border-color:blue;position:relative;top:15px;border-width: 1px;border-radius:6px"placeholder="Enter your Password" name="pass"><br><br>
+        <input type="checkbox" style="margin-left:35px;z-index:10;position:relative;">
+        <p1 style="position:relative;top:-3px;margin-left:-30px;font-size:13px;">Keep me Signed In</p1>
+        <a href="#" style="position:relative;top:-3px;margin-left:307px;font-size:13px;">Forgot Password</a><br>
+        <input type="submit" value="Login" style="position:relative;top:60px;margin-left:270px;background-color:blue;color:white;width:90px;height:30px;">
+
+    </form><br><br><br>
+    <center>
+    {% if messages %}
+  {% for message in messages %}
+		<h4 style="color:red;">{{message}}</h4>
+			{% endfor %}
+{% endif %}
+    </center>
+</div>
+
+</body>
+</html>

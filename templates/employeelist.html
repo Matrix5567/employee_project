@@ -1,0 +1,65 @@
+{% extends 'sidebar.html' %}
+{% block content %}
+<style>
+    #toppanel{
+    position:relative;
+    top:20px;
+    margin-left:300px;
+    background:white;
+    width:75%;
+    height:50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;
+    }
+    .btn1:hover{
+    background-color:blue;
+    color:white;
+    }
+    .btn2:hover{
+    background-color:blue;
+    color:white;
+    }
+
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 55%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+</style>
+<body bgcolor="EBF0FE">
+<div id="toppanel">
+    <button onclick="location.href='/employeelist'" class="btn1" style="position:relative;left:10px;top:10px;width:15%;border:2px white;border-radius:10px;" >Employee List</button>
+    <button onclick="location.href='/addemployee'" class="btn2" style="position:relative;left:25px;top:10px;width:15%;border:2px white;border-radius:10px;" >Add Employee</button>
+</div>
+<div style="position:relative;top:35px;left:300px;">
+    <table>
+  <tr>
+    <th style="background-color:#0000ffb3;color:white;">Id</th>
+    <th style="background-color:#0000ffb3;color:white">First name</th>
+    <th style="background-color:#0000ffb3;color:white;">Last name</th>
+      <th style="background-color:#0000ffb3;color:white;">Department</th>
+  </tr>
+        <tr>
+    <td>745d</td>
+    <td>David</td>
+    <td>Samuel</td>
+            <td>default department &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="background-color:white;border-radius:5px;border-color:orange;color:orange;">Download PDF</button></td>
+  </tr>
+
+</div>
+
+
+</body>
+{% endblock  %}
