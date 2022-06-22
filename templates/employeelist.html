@@ -49,14 +49,19 @@ tr:nth-child(even) {
     <th style="background-color:#0000ffb3;color:white;">Id</th>
     <th style="background-color:#0000ffb3;color:white">First name</th>
     <th style="background-color:#0000ffb3;color:white;">Last name</th>
-      <th style="background-color:#0000ffb3;color:white;">Department</th>
+      <th style="background-color:#0000ffb3;color:white;border:none;">Department</th>
+      <th style="background-color:#0000ffb3;color:white;">Reports</th>
   </tr>
+        {% for y in employees %}
         <tr>
-    <td>745d</td>
-    <td>David</td>
-    <td>Samuel</td>
-            <td>default department &nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" style="background-color:white;border-radius:5px;border-color:orange;color:orange;">Download PDF</button></td>
+    <td>{{ y.id }}</td>
+    <td>{{ y.firstname }}</td>
+    <td>{{ y.lastname }}</td>
+            <td>{{ y.role }}</td>
+            <td><button type="submit" style="background-color:white;border-radius:5px;border-color:orange;color:orange;">Download PDF</button></td>
   </tr>
+        {% endfor %}
+    </table>
 
 </div>
 

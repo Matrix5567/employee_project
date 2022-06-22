@@ -1,6 +1,6 @@
 {% extends 'sidebar.html' %}
 {% block content %}
-<style>
+<style xmlns="http://www.w3.org/1999/html">
     #toppanel{
     position:relative;
     top:20px;
@@ -46,25 +46,33 @@
     <button onclick="location.href='/addemployee'" class="btn2" style="position:relative;left:25px;top:10px;width:15%;border:2px white;border-radius:10px;" >Add Employee</button>
 </div>
 <div id="container1">
+    <form method="post" action="/saveemployee">
+        {% csrf_token %}
     <h4 style="position:relative;left:32px;top:47px;">First Name</h4>
-     <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:50px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your First Name" name="firstname">
+     <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:50px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your First Name" name="firstname" required>
     <h4 style="position:relative;left:32px;top:51px;">Last Name</h4>
-    <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:56px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Last Name" name="lastname">
+    <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:56px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Last Name" name="lastname" required>
     <h4 style="position:relative;left:32px;top:60px;">Email Address</h4>
-    <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:65px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Email Address" name="lastname">
+    <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:65px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Email Address" name="email" required>
 </div>
 <div id="container2">
     <h4 style="position:relative;left:32px;top:45px;">Role</h4>
     <select style="margin-left:31px;width:85%;height:35px;position:relative;top:46px;border-color:blue;border-radius:5px;border-width: 1px;" id="role" name="role">
     <option value="user">user</option>
-    <option value="user2">user2</option>
-    <option value="user3">user3</option>
-    <option value="user4">user4</option>
+    <option value="admin">admin</option>
   </select>
     <h4 style="position:relative;left:32px;top:52px;">Password</h4>
-     <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:53px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Password" name="password">
+     <input type ="text"style="margin-left:31px;width:85%;height:35px;position:relative;top:53px;border-color:blue;border-radius:5px;border-width: 1px"placeholder="Enter your Password" name="password" required>
     <a style="position:relative;top:71px;left:31px;color:blue;" href="#">Change Password</a>
 </div>
-<button onclick="location.href='#'"  style="position:relative;left:1328px;top:-376px;width:7%;border:2px white;border-radius:10px;background-color:blue;color:white;" >+ Create</button>
+<button type="submit" style="position:relative;left:1328px;top:-376px;width:7%;border:2px white;border-radius:10px;background-color:blue;color:white;" >+ Create</button>
+</form>
+<center>
+    {% if messages %}
+  {% for message in messages %}
+		<h4 style="color:black;position:relative;top:-365px;left:103px;">{{message}}</h4>
+			{% endfor %}
+{% endif %}
+    </center>
 </body>
 {% endblock  %}

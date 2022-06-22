@@ -1,5 +1,5 @@
 from django.urls import path
-from.views import Home,Login,Dashboard,Users,Addemployee
+from.views import Home,Login,Dashboard,Users,Addemployee,Saveemployee,Employeeattendence,Savingtime,Buttonstate,Totaltiming
 from. import views
 
 
@@ -13,6 +13,11 @@ urlpatterns = [
     path('dashboard',Dashboard.as_view(),name='dash'),
     path('employeelist',Users.as_view(),name='employeelist'),
     path("logout", views.logout_request, name="logout"),
-    path("addemployee",Addemployee.as_view(),name="addemployee")
+    path("addemployee",Addemployee.as_view(),name="addemployee"),
+    path("saveemployee",Saveemployee.as_view(),name="saveemployee"),
+    path("employeeattendence",Employeeattendence.as_view(),name="employeeattendence"),
+    path("savingtime",Savingtime.as_view() , name="savingtime"),
+    path("buttonstate",Buttonstate.as_view() , name="buttonstate"),
+    path("totaltimings",Totaltiming.as_view() , name="totaltimings"),
 
 ]

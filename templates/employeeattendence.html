@@ -1,0 +1,142 @@
+{% extends 'sidebar.html' %}
+{% block content %}
+<style>
+     #toppanel{
+    position:relative;
+    top:20px;
+    margin-left:300px;
+    background:white;
+    width:75%;
+    height:50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;
+    }
+     .btn1:hover{
+    background-color:blue;
+    color:white;
+    }
+    .btn2:hover{
+    background-color:blue;
+    color:white;
+    }
+    #inoutpanel{
+    position:relative;
+    top:-45px;
+    margin-left:300px;
+    background:white;
+    width:75%;
+    height:50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;
+    }
+    #totalhours{
+    position:relative;
+    left:489px;
+    top:-32px;
+    width:14%;
+    border:2px white;
+    border-radius:10px;
+    font-size:18px;
+    background-color:lightblue;
+    }
+     #inofficehours{
+    position:relative;
+    left:716px;
+    top:-72px;
+    width:14%;
+    border:2px white;
+    border-radius:10px;
+    font-size:18px;
+    background-color:#FFD580;
+    }
+    #table{
+    position:relative;
+    left:299px;
+    top:-72px;
+    width:14%;
+    border:2px white;
+    font-size:18px;
+    }
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 276%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function checkin(id) {
+document.getElementById(id);
+var user = document.getElementById("emp").value;
+
+$.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user, function(data, status)  //ajax passing to backend userid and state to save time
+   {
+   document.getElementById("table").innerHTML = data;
+   });
+
+  $.get("http://127.0.0.1:8000/buttonstate?user="+user, function(data, status) {
+  document.getElementById("CHECK IN").disabled = data.check_in;
+  document.getElementById("CHECK OUT").disabled = data.check_out;
+  document.getElementById("BREAK").disabled = data.break;
+  document.getElementById("BACK TO WORK").disabled=data.back_to_work;           // passing userid getting button state from back end
+  });
+
+
+  $.get("http://127.0.0.1:8000/totaltimings?user="+user, function(data, status) {
+    document.getElementById("totalh").innerHTML = data.totalhours;
+  });
+}
+
+</script>
+
+<div id="toppanel">
+    <button onclick="location.href='#'" class="btn1" style="position:relative;left:10px;top:10px;width:15%;border:2px white;border-radius:10px;" >My Attendence</button>
+    <button onclick="location.href='#'" class="btn2" style="position:relative;left:25px;top:10px;width:15%;border:2px white;border-radius:10px;" >Settings</button>
+</div>
+<h4 style="position:relative;top:44px;left:901px;font-size:16px;" >Date:</h4>
+<div style="position:relative;top:6px;left:969px;">
+<p id="datetime" style="position:relative;top:0px;left:-19px;"></p>
+    <h4 style="position:relative;top:-34px;left:155px;font-size:16px;">Employee Name:</h4>
+    <select style="position:relative;top:-72px;left:281px;font-size:19px;width: 192px;border-radius:5px;background-color:white;" id="emp" name="emp" onchange="checkin(this.id)">
+    <option>Select Employee</option>
+        {% for y in employees %}
+        <option value="{{ y.id }}">{{ y.firstname }} {{ y.lastname }}</option>
+        {% endfor %}
+  </select>
+</div>
+<div id="inoutpanel">
+<h4 style="position:relative;left:10px;top:10px;width:15%;border:2px white;border-radius:10px;font-size:18px;">IN/OUT DETAILS</h4>
+</div>
+<div id="totalhours">
+    Total Hours:<span style="position:relative;top:1px;left:41px;" id="totalh"></span>
+</div>
+<div id="inofficehours">
+    <h4 style="position:relative;top:1px;left:31px;">InOffice Hours:00</h4>
+</div>
+<div id="buttons">
+    <button type="submit" style="position:relative;top:-110px;left:947px;background-color:#90ee90;white;border-radius:10px;" onclick="checkin(this.id)" id="CHECK IN">CHECK IN</button>
+    <button type="submit" style="position:relative;top:-110px;left:965px;background-color:#90ee90;white;border-radius:10px;"onclick="checkin(this.id)" id="CHECK OUT">CHECK OUT</button>
+    <button type="submit" style="position:relative;top:-110px;left:978px;background-color:#ffcccb;white;border-radius:10px;width:91px;"onclick="checkin(this.id)" id="BREAK">BREAK</button>
+    <button type="submit" style="position:relative;top:-110px;left:1010px;background-color:#ffcccb;white;border-radius:10px;width:129px;white-space: nowrap;"onclick="checkin(this.id)" id="BACK TO WORK">BACK TO WORK</button>
+</div>
+<div id="table">
+
+
+</div>
+<script>
+date = new Date();
+year = date.getFullYear();
+month = date.getMonth() + 1;
+day = date.getDate();
+document.getElementById("datetime").innerHTML = month + "/" + day + "/" + year;
+</script>
+{% endblock  %}

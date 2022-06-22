@@ -13,3 +13,27 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
+
+
+class Employee(models.Model):
+    firstname = models.CharField(max_length=50,blank=True,null=True)
+    lastname = models.CharField(max_length=50,blank=True,null=True)
+    email = models.CharField(max_length=50,blank=True,null=True,unique=True)
+    role = models.CharField(max_length=50,blank=True,null=True)
+    password = models.CharField(max_length=50,blank=True,null=True)
+
+    def __str__(self):
+        return self.firstname
+
+class Timecalc(models.Model):
+    checkstate = models.CharField(max_length=15,blank=True,null=True)
+    time = models.DateTimeField(blank=True,null=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+
+
+
+
+
+
+
+

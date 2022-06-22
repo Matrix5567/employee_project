@@ -1,0 +1,16 @@
+<table>
+        <tr>
+    <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Check State</th>
+    <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Time</th>
+   <!-- <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Total Time (Check In + Check out)</th>
+            <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Total Break Time (Break + Back To Work)</th>-->
+  </tr>
+        {% for y in times %}
+        <tr>
+             <td>{{ y.checkstate }}</td>
+             <td>{{ y.time }}</td>
+            <!--<td></td>
+             <td></td>-->
+         </tr>
+        {% endfor %}
+    </table>
