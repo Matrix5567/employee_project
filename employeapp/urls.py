@@ -1,5 +1,5 @@
 from django.urls import path
-from.views import Home,Login,Dashboard,Users,Addemployee,Saveemployee,Employeeattendence,Savingtime,Buttonstate,Totaltiming
+from.views import Home,Login,Dashboard,Users,Addemployee,Saveemployee,Employeeattendence,Savingtime,Buttonstate,Totaltiming,Leavings
 from. import views
 
 
@@ -19,5 +19,7 @@ urlpatterns = [
     path("savingtime",Savingtime.as_view() , name="savingtime"),
     path("buttonstate",Buttonstate.as_view() , name="buttonstate"),
     path("totaltimings",Totaltiming.as_view() , name="totaltimings"),
+    path("leave",Leavings.as_view() , name="leave"),
+
 
 ]

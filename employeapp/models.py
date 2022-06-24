@@ -30,6 +30,12 @@ class Timecalc(models.Model):
     time = models.DateTimeField(blank=True,null=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
 
+class Leave(models.Model):
+    date = models.CharField(max_length=12,blank=True,null=True)
+    leavetype = models.CharField(max_length=15,blank=True,null=True)
+    time = models.CharField(max_length=15,blank=True, null=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
+
 
 
 

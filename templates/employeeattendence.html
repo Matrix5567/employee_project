@@ -42,7 +42,7 @@
      #inofficehours{
     position:relative;
     left:716px;
-    top:-72px;
+    top:-58px;
     width:14%;
     border:2px white;
     border-radius:10px;
@@ -77,8 +77,9 @@ tr:nth-child(even) {
     function checkin(id) {
 document.getElementById(id);
 var user = document.getElementById("emp").value;
+var date = document.getElementById("date").value;
 
-$.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user, function(data, status)  //ajax passing to backend userid and state to save time
+$.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user+"&date="+date, function(data, status)  //ajax passing to backend userid and state to save time
    {
    document.getElementById("table").innerHTML = data;
    });
@@ -91,10 +92,33 @@ $.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user, function(data, st
   });
 
 
-  $.get("http://127.0.0.1:8000/totaltimings?user="+user, function(data, status) {
-    document.getElementById("totalh").innerHTML = data.totalhours;
+  $.get("http://127.0.0.1:8000/totaltimings?user="+user+"&date="+date, function(data, status) {
+    document.getElementById("totalh").innerHTML = data.totalhours;     //passing user and date to calculate total hours and in office hours
+    document.getElementById("totalo").innerHTML = data.in_office_hours;
+
   });
+
+
+  $.get("http://127.0.0.1:8000/leave?id="+id+"&user="+user+"&date="+date, function(data, status) {
+
+
+  });
+
+
 }
+ function passleave(id) {
+ var user = document.getElementById("emp").value;
+ if (id == 'EARLY LOGOUT') {
+ leavetype = document.getElementById("earlylogout").value;
+ }
+ else {
+ leavetype = document.getElementById("latecomming").value;
+ }
+  $.get("http://127.0.0.1:8000/leave?id="+id+"&user="+user+"&date="+leavetype, function(data, status) {
+
+   });
+
+ }
 
 </script>
 
@@ -104,9 +128,10 @@ $.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user, function(data, st
 </div>
 <h4 style="position:relative;top:44px;left:901px;font-size:16px;" >Date:</h4>
 <div style="position:relative;top:6px;left:969px;">
-<p id="datetime" style="position:relative;top:0px;left:-19px;"></p>
+    <input  type="date"style="position:relative;top:0px;left:-19px;border-radius:10px;" onchange="checkin(this.id)" id="date" name="date" value="2022-01-01" >
+<!--<p id="datetime" style="position:relative;top:0px;left:-19px;"></p>-->
     <h4 style="position:relative;top:-34px;left:155px;font-size:16px;">Employee Name:</h4>
-    <select style="position:relative;top:-72px;left:281px;font-size:19px;width: 192px;border-radius:5px;background-color:white;" id="emp" name="emp" onchange="checkin(this.id)">
+    <select style="position:relative;top:-72px;left:281px;font-size:19px;width: 192px;border-radius:5px;background-color:white;" id="emp" name="emp" onload="checkin(this.id)" onchange="checkin(this.id)">
     <option>Select Employee</option>
         {% for y in employees %}
         <option value="{{ y.id }}">{{ y.firstname }} {{ y.lastname }}</option>
@@ -120,23 +145,24 @@ $.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user, function(data, st
     Total Hours:<span style="position:relative;top:1px;left:41px;" id="totalh"></span>
 </div>
 <div id="inofficehours">
-    <h4 style="position:relative;top:1px;left:31px;">InOffice Hours:00</h4>
+    InOffice Hours:<span style="position:relative;top:1px;left:31px;" id="totalo"></span>
 </div>
 <div id="buttons">
-    <button type="submit" style="position:relative;top:-110px;left:947px;background-color:#90ee90;white;border-radius:10px;" onclick="checkin(this.id)" id="CHECK IN">CHECK IN</button>
-    <button type="submit" style="position:relative;top:-110px;left:965px;background-color:#90ee90;white;border-radius:10px;"onclick="checkin(this.id)" id="CHECK OUT">CHECK OUT</button>
-    <button type="submit" style="position:relative;top:-110px;left:978px;background-color:#ffcccb;white;border-radius:10px;width:91px;"onclick="checkin(this.id)" id="BREAK">BREAK</button>
-    <button type="submit" style="position:relative;top:-110px;left:1010px;background-color:#ffcccb;white;border-radius:10px;width:129px;white-space: nowrap;"onclick="checkin(this.id)" id="BACK TO WORK">BACK TO WORK</button>
+    <button type="submit" style="position:relative;top:-86px;left:947px;background-color:#90ee90;white;border-radius:10px;" onclick="checkin(this.id)" id="CHECK IN">CHECK IN</button>
+    <button type="submit" style="position:relative;top:-86px;left:965px;background-color:#90ee90;white;border-radius:10px;"onclick="checkin(this.id)" id="CHECK OUT">CHECK OUT</button>
+    <button type="submit" style="position:relative;top:-86px;left:978px;background-color:#ffcccb;white;border-radius:10px;width:91px;"onclick="checkin(this.id)" id="BREAK">BREAK</button>
+    <button type="submit" style="position:relative;top:-86px;left:1010px;background-color:#ffcccb;white;border-radius:10px;width:129px;white-space: nowrap;"onclick="checkin(this.id)" id="BACK TO WORK">BACK TO WORK</button>
 </div>
+<button type="submit" style="position:relative;top:-44px;left:1309px;background-color:#90ee90;white;border-radius:10px;width:135px;white-space: nowrap;" onclick="checkin(this.id)" id="FULL DAY LEAVE">FULL DAY LEAVE</button>
+<button type="submit" style="position:relative;top:2px;left:1172px;background-color:#90ee90;white;border-radius:10px;width:135px;white-space: nowrap;" onclick="checkin(this.id)" id="HALF DAY LEAVE">HALF DAY LEAVE</button>
+<button type="submit" style="position:relative;top:50px;left:1038px;background-color:#90ee90;white;border-radius:10px;width:129px;white-space: nowrap;" onclick="passleave(this.id)" id="EARLY LOGOUT">EARLY LOGOUT</button>
+<button type="submit" style="position:relative;top:92px;left:907px;background-color:#90ee90;white;border-radius:10px;width:129px;white-space: nowrap;" onclick="passleave(this.id)" id="LATE COMMING">LATE COMMING</button>
+<input type="text" style="position:relative;top:92px;left:683px;width:86px;border-radius:10px;" placeholder="Time" id="latecomming">
+<input type="text" style="position:relative;top:51px;left:591px;width:86px;border-radius:10px;" placeholder="Time" id="earlylogout">
+
+
 <div id="table">
 
 
 </div>
-<script>
-date = new Date();
-year = date.getFullYear();
-month = date.getMonth() + 1;
-day = date.getDate();
-document.getElementById("datetime").innerHTML = month + "/" + day + "/" + year;
-</script>
 {% endblock  %}
