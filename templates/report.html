@@ -1,0 +1,77 @@
+{% extends 'sidebar.html' %}
+{% block content %}
+<style>
+     #toppanel{
+    position:relative;
+    top:20px;
+    margin-left:300px;
+    background:white;
+    width:75%;
+    height:50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;
+    }
+    h4{margin:0px;}
+     #table2{
+    position:relative;
+    left:299px;
+    top:55px;
+    width:14%;
+    border:2px white;
+    font-size:18px;
+    }
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 540%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function report(id) {
+document.getElementById(id);
+var user = document.getElementById("emp").value;
+var fromdate = document.getElementById("fromdate").value;
+var todate = document.getElementById("todate").value;
+
+$.get("http://127.0.0.1:8000/reports?id="+id+"&user="+user+"&fromdate="+fromdate+"&todate="+todate, function(data, status)
+   {
+   document.getElementById("table2").innerHTML = data;
+
+   });
+
+
+
+   }
+</script>
+<div id="toppanel">
+    <h4 style="position:relative;top:15px;left:11px;font-size:16px;" >From Date:</h4>
+     <input  type="date"style="position:relative;top:-11px;left:95px;border-radius:10px;" onchange="report(this.id)" id="fromdate" name="fromdate" value="2022-06-01" >
+    <h4 style="position:relative;top:-39px;left:252px;font-size:16px;" >To Date:</h4>
+    <input  type="date"style="position:relative;top:-64px;left:316px;border-radius:10px;" onchange="report(this.id)" id="todate" name="todate"  value="2022-06-01" >
+    <h4 style="position:relative;top:-90px;left:624px;font-size:16px;" >Employee Name:</h4>
+    <select style="position:relative;top:-115px;left:751px;font-size:19px;width: 192px;border-radius:5px;background-color:white;" id="emp" name="emp" onload="report(this.id)" onchange="report(this.id)">
+    <option>Select Employee</option>
+        {% for y in employees %}
+        <option value="{{ y.id }}">{{ y.firstname }} {{ y.lastname }}</option>
+        {% endfor %}
+  </select>
+    <a href="#"><button type="submit" style="background-color:white;border-radius:5px;border-color:orange;color:orange;position:relative;top:-116px;left:787px;">Download Report</button></a>
+</div>
+
+<div id="table2">
+
+
+
+</div>
+{% endblock  %}

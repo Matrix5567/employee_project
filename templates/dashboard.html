@@ -57,14 +57,23 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-$(function() {
-  $('input[name="daterange"]').daterangepicker({
-    opens: 'left'
-  }, function(start, end, label) {
-    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-  });
-});
+     function report(id) {
+document.getElementById(id);
+var fromdate = document.getElementById("fromdate").value;
+var todate = document.getElementById("todate").value;
+
+$.get("http://127.0.0.1:8000/dashboard?fromdate="+fromdate+"&todate="+todate, function(data, status)
+   {
+   //document.getElementById("table2").innerHTML = data;
+
+   });
+
+
+
+   }
+
 </script>
 <body bgcolor="EBF0FE">
 <div id="first" class="container">  <!-- average in time -->
@@ -72,7 +81,7 @@ $(function() {
         <svg xmlns="http://www.w3.org/2000/svg" fill="blue" height="48" width="48"><path d="M18 5V2H30V5ZM22.5 27.35H25.5V15.85H22.5ZM24 43.95Q20.3 43.95 17.025 42.525Q13.75 41.1 11.3 38.65Q8.85 36.2 7.425 32.925Q6 29.65 6 25.95Q6 22.25 7.425 18.975Q8.85 15.7 11.3 13.25Q13.75 10.8 17.025 9.375Q20.3 7.95 24 7.95Q27.35 7.95 30.3 9.075Q33.25 10.2 35.55 12.2L38.1 9.65L40.2 11.75L37.65 14.3Q39.45 16.3 40.725 19.15Q42 22 42 25.95Q42 29.65 40.575 32.925Q39.15 36.2 36.7 38.65Q34.25 41.1 30.975 42.525Q27.7 43.95 24 43.95ZM24 40.95Q30.25 40.95 34.625 36.575Q39 32.2 39 25.95Q39 19.7 34.625 15.325Q30.25 10.95 24 10.95Q17.75 10.95 13.375 15.325Q9 19.7 9 25.95Q9 32.2 13.375 36.575Q17.75 40.95 24 40.95ZM24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Z"/></svg>
     </div>
     <h4 style="position:relative;top:15px;left:13px;">Average In time</h4>
-    <h4 style="position:relative;left:5px;top:0px;font-size:60px;">00:00:00</h4>
+    <h4 style="position:relative;left:5px;top:0px;font-size:60px;">{{averageintime}}</h4>
 </div>
 
 <div id="second" class="container">    <!-- average out time-->
@@ -80,7 +89,7 @@ $(function() {
 <svg xmlns="http://www.w3.org/2000/svg" fill="blue" height="48" width="48"><path d="M18 5V2H30V5ZM22.5 27.35H25.5V15.85H22.5ZM24 43.95Q20.3 43.95 17.025 42.525Q13.75 41.1 11.3 38.65Q8.85 36.2 7.425 32.925Q6 29.65 6 25.95Q6 22.25 7.425 18.975Q8.85 15.7 11.3 13.25Q13.75 10.8 17.025 9.375Q20.3 7.95 24 7.95Q27.35 7.95 30.3 9.075Q33.25 10.2 35.55 12.2L38.1 9.65L40.2 11.75L37.65 14.3Q39.45 16.3 40.725 19.15Q42 22 42 25.95Q42 29.65 40.575 32.925Q39.15 36.2 36.7 38.65Q34.25 41.1 30.975 42.525Q27.7 43.95 24 43.95ZM24 40.95Q30.25 40.95 34.625 36.575Q39 32.2 39 25.95Q39 19.7 34.625 15.325Q30.25 10.95 24 10.95Q17.75 10.95 13.375 15.325Q9 19.7 9 25.95Q9 32.2 13.375 36.575Q17.75 40.95 24 40.95ZM24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Q24 26 24 26Z"/></svg>
     </div>
     <h4 style="position:relative;top:15px;left:13px;">Average Out time</h4>
-    <h4 style="position:relative;left:5px;top:0px;font-size:60px;">00:00:00</h4>
+    <h4 style="position:relative;left:5px;top:0px;font-size:60px;">{{totalbreakhours}}</h4>
 </div>
 
 <div id="third" class="container">  <!-- average hours/day -->
@@ -88,25 +97,24 @@ $(function() {
 <svg xmlns="http://www.w3.org/2000/svg" fill="blue" height="48" width="48"><path d="M9 42Q7.8 42 6.9 41.1Q6 40.2 6 39V9Q6 7.8 6.9 6.9Q7.8 6 9 6H39Q40.2 6 41.1 6.9Q42 7.8 42 9V39Q42 40.2 41.1 41.1Q40.2 42 39 42ZM9 39H39Q39 39 39 39Q39 39 39 39V9Q39 9 39 9Q39 9 39 9H9Q9 9 9 9Q9 9 9 9V39Q9 39 9 39Q9 39 9 39ZM14.2 34.15H17.2V23.9H14.2ZM30.8 34.15H33.8V13.15H30.8ZM22.5 34.15H25.5V28.25H22.5ZM22.5 23.9H25.5V20.9H22.5ZM9 39Q9 39 9 39Q9 39 9 39V9Q9 9 9 9Q9 9 9 9Q9 9 9 9Q9 9 9 9V39Q9 39 9 39Q9 39 9 39Z"/></svg>
     </div>
     <h4 style="position:relative;top:15px;left:13px;">Average hours/day</h4>
-    <h4 style="position:relative;left:5px;top:0px;font-size:60px;">00:00:00</h4>
+    <h4 style="position:relative;left:5px;top:0px;font-size:60px;">{{averagehours}}</h4>
 
 </div>
 <div id="grphdiv"> <!-- graph div start-->
     <h4 style="position:relative;top:35px;left:45px;">Attendence(Hours)</h4>
-    <div style="position:relative;top:5px;left:550px;">  <!-- calender div -->
-        <?xml version="1.0" encoding="UTF-8"?><!-- calender svg -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25px" height="22px" viewBox="0 0 25 25" version="1.1">
-<path style=" stroke:blue;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 12.5 14.582031 C 12.203125 14.582031 11.957031 14.484375 11.757812 14.285156 C 11.558594 14.085938 11.457031 13.835938 11.457031 13.542969 C 11.457031 13.246094 11.558594 13 11.757812 12.800781 C 11.957031 12.601562 12.203125 12.5 12.5 12.5 C 12.796875 12.5 13.042969 12.601562 13.242188 12.800781 C 13.441406 13 13.542969 13.246094 13.542969 13.542969 C 13.542969 13.835938 13.441406 14.085938 13.242188 14.285156 C 13.042969 14.484375 12.796875 14.582031 12.5 14.582031 Z M 8.332031 14.582031 C 8.039062 14.582031 7.789062 14.484375 7.589844 14.285156 C 7.390625 14.085938 7.292969 13.835938 7.292969 13.542969 C 7.292969 13.246094 7.390625 13 7.589844 12.800781 C 7.789062 12.601562 8.039062 12.5 8.332031 12.5 C 8.628906 12.5 8.875 12.601562 9.074219 12.800781 C 9.273438 13 9.375 13.246094 9.375 13.542969 C 9.375 13.835938 9.273438 14.085938 9.074219 14.285156 C 8.875 14.484375 8.628906 14.582031 8.332031 14.582031 Z M 16.667969 14.582031 C 16.371094 14.582031 16.125 14.484375 15.925781 14.285156 C 15.726562 14.085938 15.625 13.835938 15.625 13.542969 C 15.625 13.246094 15.726562 13 15.925781 12.800781 C 16.125 12.601562 16.371094 12.5 16.667969 12.5 C 16.960938 12.5 17.210938 12.601562 17.410156 12.800781 C 17.609375 13 17.707031 13.246094 17.707031 13.542969 C 17.707031 13.835938 17.609375 14.085938 17.410156 14.285156 C 17.210938 14.484375 16.960938 14.582031 16.667969 14.582031 Z M 12.5 18.75 C 12.203125 18.75 11.957031 18.648438 11.757812 18.449219 C 11.558594 18.25 11.457031 18.003906 11.457031 17.707031 C 11.457031 17.414062 11.558594 17.164062 11.757812 16.964844 C 11.957031 16.765625 12.203125 16.667969 12.5 16.667969 C 12.796875 16.667969 13.042969 16.765625 13.242188 16.964844 C 13.441406 17.164062 13.542969 17.414062 13.542969 17.707031 C 13.542969 18.003906 13.441406 18.25 13.242188 18.449219 C 13.042969 18.648438 12.796875 18.75 12.5 18.75 Z M 8.332031 18.75 C 8.039062 18.75 7.789062 18.648438 7.589844 18.449219 C 7.390625 18.25 7.292969 18.003906 7.292969 17.707031 C 7.292969 17.414062 7.390625 17.164062 7.589844 16.964844 C 7.789062 16.765625 8.039062 16.667969 8.332031 16.667969 C 8.628906 16.667969 8.875 16.765625 9.074219 16.964844 C 9.273438 17.164062 9.375 17.414062 9.375 17.707031 C 9.375 18.003906 9.273438 18.25 9.074219 18.449219 C 8.875 18.648438 8.628906 18.75 8.332031 18.75 Z M 16.667969 18.75 C 16.371094 18.75 16.125 18.648438 15.925781 18.449219 C 15.726562 18.25 15.625 18.003906 15.625 17.707031 C 15.625 17.414062 15.726562 17.164062 15.925781 16.964844 C 16.125 16.765625 16.371094 16.667969 16.667969 16.667969 C 16.960938 16.667969 17.210938 16.765625 17.410156 16.964844 C 17.609375 17.164062 17.707031 17.414062 17.707031 17.707031 C 17.707031 18.003906 17.609375 18.25 17.410156 18.449219 C 17.210938 18.648438 16.960938 18.75 16.667969 18.75 Z M 4.6875 22.917969 C 4.269531 22.917969 3.90625 22.761719 3.59375 22.449219 C 3.28125 22.136719 3.125 21.769531 3.125 21.355469 L 3.125 5.207031 C 3.125 4.792969 3.28125 4.425781 3.59375 4.113281 C 3.90625 3.800781 4.269531 3.644531 4.6875 3.644531 L 6.378906 3.644531 L 6.378906 2.082031 L 8.074219 2.082031 L 8.074219 3.644531 L 16.925781 3.644531 L 16.925781 2.082031 L 18.621094 2.082031 L 18.621094 3.644531 L 20.3125 3.644531 C 20.730469 3.644531 21.09375 3.800781 21.40625 4.113281 C 21.71875 4.425781 21.875 4.792969 21.875 5.207031 L 21.875 21.355469 C 21.875 21.769531 21.71875 22.136719 21.40625 22.449219 C 21.09375 22.761719 20.730469 22.917969 20.3125 22.917969 Z M 4.6875 21.355469 L 20.3125 21.355469 L 20.3125 10.15625 L 4.6875 10.15625 Z M 4.6875 8.59375 L 20.3125 8.59375 L 20.3125 5.207031 L 4.6875 5.207031 Z M 4.6875 8.59375 L 4.6875 5.207031 Z M 4.6875 8.59375 "/>
-</svg>
-    <input style="background-color:#EBF0FE;box-shadow: 0 4px 8px 0 #022BBD1A, 0 6px 20px 0 #022BBD1A;border-style:none;width:185px;"  type="text" name="daterange" value="06/16/2022 - 07/30/2022" />
-    </div><!-- calender div ending -->
-    <canvas id="myChart" style="width:100%;max-width:750px;position:relative;top:65px;left:35px;"></canvas>  <!-- graph -->
+    <!--<div style="position:relative;top:5px;left:550px;">
+       <h4 style="position:relative;top:7px;left:-257px;font-size:16px;" >From Date:</h4>
+        <input  type="date"style="position:relative;top:-22px;left:-162px;border-radius:10px;" onchange="report(this.id)" id="fromdate" name="fromdate" value="2022-06-01" >
+        <h4 style="position:relative;top:-46px;left:-9px;font-size:16px;" >To Date:</h4>
+        <input  type="date"style="position:relative;top:-73px;left:60px;border-radius:10px;" onchange="report(this.id)" id="todate" name="todate" value="2022-06-01" >
+    </div>--><!-- calender div ending -->
+    <canvas id="myChart" style="width:100%;max-width:750px;position:relative;top:33px;left:35px;"></canvas>  <!-- graph -->
 
 </div> <!-- graph div ending -->
 <script>
-var xValues = ["Monday 5", "Tuesday 6", "wednesday 7", "Thursday 8", "Friday 9","Saturday 10","Sunday 11"];
-var yValues = [1,2,3,4,5,6,7,8,9];
-var barColors = ["#0000ffb3", "#0000ffb3","#0000ffb3","#0000ffb3","#0000ffb3","#0000ffb3","#0000ffb3"];
+var xValues = ["Average In time","Average Out Time","Average Hours/Day"];
+var yValues = [{{ averageintime }},{{ totalbreakhours }},{{ averagehours }}];
+var barColors = ["#0000ffb3", "#0000ffb3","#0000ffb3"];
 
 new Chart("myChart", {                                                     // graph function
   type: "bar",

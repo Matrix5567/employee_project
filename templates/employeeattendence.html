@@ -128,7 +128,7 @@ $.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user+"&date="+date, fun
 </div>
 <h4 style="position:relative;top:44px;left:901px;font-size:16px;" >Date:</h4>
 <div style="position:relative;top:6px;left:969px;">
-    <input  type="date"style="position:relative;top:0px;left:-19px;border-radius:10px;" onchange="checkin(this.id)" id="date" name="date" value="2022-01-01" >
+    <input  type="date"style="position:relative;top:0px;left:-19px;border-radius:10px;" onchange="checkin(this.id)" id="date" name="date" value="2022-06-01" >
 <!--<p id="datetime" style="position:relative;top:0px;left:-19px;"></p>-->
     <h4 style="position:relative;top:-34px;left:155px;font-size:16px;">Employee Name:</h4>
     <select style="position:relative;top:-72px;left:281px;font-size:19px;width: 192px;border-radius:5px;background-color:white;" id="emp" name="emp" onload="checkin(this.id)" onchange="checkin(this.id)">
@@ -157,8 +157,8 @@ $.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user+"&date="+date, fun
 <button type="submit" style="position:relative;top:2px;left:1172px;background-color:#90ee90;white;border-radius:10px;width:135px;white-space: nowrap;" onclick="checkin(this.id)" id="HALF DAY LEAVE">HALF DAY LEAVE</button>
 <button type="submit" style="position:relative;top:50px;left:1038px;background-color:#90ee90;white;border-radius:10px;width:129px;white-space: nowrap;" onclick="passleave(this.id)" id="EARLY LOGOUT">EARLY LOGOUT</button>
 <button type="submit" style="position:relative;top:92px;left:907px;background-color:#90ee90;white;border-radius:10px;width:129px;white-space: nowrap;" onclick="passleave(this.id)" id="LATE COMMING">LATE COMMING</button>
-<input type="text" style="position:relative;top:92px;left:683px;width:86px;border-radius:10px;" placeholder="Time" id="latecomming">
-<input type="text" style="position:relative;top:51px;left:591px;width:86px;border-radius:10px;" placeholder="Time" id="earlylogout">
+<input type="text" style="position:relative;top:92px;left:683px;width:86px;border-radius:10px;"  id="latecomming">
+<input type="text" style="position:relative;top:51px;left:591px;width:86px;border-radius:10px;"  id="earlylogout">
 
 
 <div id="table">

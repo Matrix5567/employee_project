@@ -1,0 +1,22 @@
+<table>
+    <tr>
+        <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Date</th>
+    <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Check IN</th>
+             <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Break</th>
+             <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Back to work</th>
+             <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Check OUT</th>
+    </tr>
+    {% for a,b,c,d in times %}
+    <tr>
+
+    <td>{{a|date:'Y-M-d'}}</td>  <!-- date -->
+    <td>{{a|date:"H:i"}}</td>   <!-- checking -->
+        <td>{{b|date:"H:i"}}</td>  <!-- checkout -->
+        <td>{{c|date:"H:i"}}</td>
+        <td>{{d|date:"H:i"}}</td>
+
+
+</tr>
+    {% endfor %}
+</table>
+

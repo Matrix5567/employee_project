@@ -25,15 +25,19 @@ class Employee(models.Model):
     def __str__(self):
         return self.firstname
 
+
 class Timecalc(models.Model):
     checkstate = models.CharField(max_length=15,blank=True,null=True)
     time = models.DateTimeField(blank=True,null=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return f'{self.time}  --- {self.checkstate}'
+
 class Leave(models.Model):
-    date = models.CharField(max_length=12,blank=True,null=True)
+    full_day_or_half_day_date_or_late_comming_or_early_logout_time = models.CharField(max_length=12,blank=True,null=True)
     leavetype = models.CharField(max_length=15,blank=True,null=True)
-    time = models.CharField(max_length=15,blank=True, null=True)
+    system_time = models.DateTimeField(blank=True, null=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
 
 

@@ -2,7 +2,7 @@ import time
 
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 #import datetime
 from django.utils import timezone
 from datetime import datetime
+from fpdf import FPDF
 
 class Home(View):
     def get(self, request):
@@ -34,7 +35,44 @@ class Login(View):
 @method_decorator(login_required,name='dispatch')
 class Dashboard(View):
     def get(self, request):                                        #dashboard##
-        return render(request,'dashboard.html')
+        checkin = []
+        breaks = []
+        backtowork =[]
+        checkout = []
+        totalhours = 0
+        totalbreakhours = 0
+        y= Timecalc.objects.all()
+
+        for i in y:
+            if i.checkstate=='CHECK IN':
+                checkin.append(i.time)
+            elif i.checkstate=='BREAK':
+                breaks.append(i.time)
+            elif i.checkstate=='BACK TO WORK':
+                backtowork.append(i.time)
+            else:
+                checkout.append(i.time)
+        if len(breaks)>len(backtowork):
+            rang = len(backtowork)
+        else:
+            rang = len(breaks)
+        for i in range(0,rang):
+            totalbreakhours += ((backtowork[i]-breaks[i]).seconds/3600)
+        if len(checkin)>len(checkout):
+            rang = len(checkout)
+        else:
+            rang = len(checkin)
+        for i in range(0,rang):
+            totalhours+= ((checkout[i]-checkin[i]).seconds/3600)
+        print("totalbreakhours",totalbreakhours)
+        print("totalhours", totalhours)
+        totalbreakhours=round(totalbreakhours, 2)
+        averageintime = totalhours-totalbreakhours
+        averageintime = round(averageintime, 2)
+        print("checkin",len(checkin))
+        averagehours = averageintime/len(checkin)
+        averagehours = round(averagehours, 2)
+        return render(request,'dashboard.html',{'averageintime':averageintime,'totalbreakhours':totalbreakhours,'averagehours':averagehours})
 
 
 
@@ -195,13 +233,95 @@ class Leavings(View):
         leavetype = request.GET.get('id')
         time = request.GET.get('time')
         date = request.GET.get('date')
-        print("date",date)
         emp = Employee.objects.get(id=employee)
-        print("employee", employee)
-        print("leave type", leavetype)
-        if  leavetype != 'date' and leavetype != 'emp':
-            Leave(employee=emp,leavetype=leavetype,time=time,date=date).save()   # saving leave type with employee
+        current_datetime = datetime.now()
+        if  leavetype != 'date' and leavetype != 'emp' and leavetype != 'BACK TO WORK' and leavetype !='CHECK IN' and leavetype != 'CHECK OUT' and leavetype !='BREAK':
+            Leave(employee=emp,leavetype=leavetype,system_time=current_datetime,full_day_or_half_day_date_or_late_comming_or_early_logout_time=date).save()   # saving leave type with employee
         return HttpResponse("success")
+
+
+@method_decorator(login_required,name='dispatch')
+class Reports(View):
+    def get(self,request):
+        employee = request.GET.get('user')
+        fromdate = request.GET.get('fromdate')
+        todate = request.GET.get('todate')
+        if employee != None and employee != None and fromdate != None and todate != None and employee !='Select Employee':
+            from_date_object = datetime.strptime(fromdate, "%Y-%m-%d")                  ### report page on table
+            to_date_object = datetime.strptime(todate, "%Y-%m-%d")
+            checkin=[]
+            checkout=[]
+            breaks=[]
+            backtowork=[]
+            filter=Timecalc.objects.filter(employee=employee,time__range=[from_date_object,to_date_object])
+            for i in filter:
+                if i.checkstate=='CHECK IN':
+                    checkin.append(i.time)
+                elif i.checkstate=='CHECK OUT':
+                    checkout.pop()
+                    checkout.append(i.time)
+                    checkin.pop()
+
+                elif i.checkstate=='BREAK':
+                    breaks.append(i.time)
+                elif i.checkstate=='BACK TO WORK':
+                    backtowork.append(i.time)
+                    checkin.append("")
+                    checkout.append("")
+            z=zip(checkin,breaks,backtowork,checkout)
+            return render(request,'table2.html',{'filtered':filter,'times':z})
+        return render(request, 'table2.html')
+
+
+@method_decorator(login_required,name='dispatch')
+class Reportsemployee(View):                 ## rendering report page
+    def get(self,request):
+        y = Employee.objects.all()
+        return render(request, 'report.html', {'employees': y})
+
+
+
+
+'''class Report(View):
+    def get(self, request):
+        sales = [
+            {"month": "JANUARY", "attendence": "100%"},
+            {"month": "FEBRUARY", "attendence": "80%"},
+            {"month": "MARCH", "attendence": "65%"},
+            {"month": "APRIL", "attendence": "65%"},
+            {"month": "MAY", "attendence": "65%"},
+            {"month": "JUNE", "attendence": "65%"},
+            {"month": "JULY", "attendence": "65%"},
+            {"month": "AUGUST", "attendence": "65%"},
+            {"month": "SEPTEMBER", "attendence": "65%"},
+            {"month": "OCTOBER", "attendence": "65%"},
+            {"month": "NOVEMBER", "attendence": "65%"},
+            {"month": "DECEMBER", "attendence": "65%"},
+        ]
+        name = 'Kevin'
+        current_datetime = str(datetime.now())
+        pdf = FPDF('P', 'mm', 'A4')
+        pdf.add_page()
+        #pdf.image(name='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOebxopOqyWxbjIVqkoRlZH5Sv2tD-iFeU3P5ZMiQ8uqqRy_CDkg85NQBATWuJvCSLkcc&usqp=CAU', x=20, y=70, w=100, h=50, type='', link='')
+        pdf.set_font('courier', 'B', 16)
+        pdf.cell(40, 10,'CODESVERA INFOTECH', 0, 1)
+        pdf.cell(40, 10, current_datetime, 0, 1)
+        pdf.cell(40, 10, 'EMPLOYEE REPORT',0,1)
+        pdf.cell(40, 10, '',0,1)
+        pdf.cell(40, 10, name, 0, 1)
+        pdf.cell(40, 10, '', 0, 1)
+        pdf.cell(200, 8, f"{'MONTH'.ljust(30)} {'ATTENDENCE'.rjust(20)}", 0, 1)
+        pdf.line(10, 30, 190, 30)
+        pdf.line(10, 38, 190, 38)
+        for line in sales:
+            pdf.cell(200, 8, f"{line['month'].ljust(30)} {line['attendence'].rjust(20)}", 0, 1)
+
+        pdf.output('tuto1.pdf', 'F')
+        return FileResponse(open('tuto1.pdf', 'rb'), as_attachment=False, content_type='application/pdf')'''
+
+
+
+
 
 
 

@@ -38,6 +38,11 @@ tr:nth-child(even) {
 
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+
+</script>
 <body bgcolor="EBF0FE">
 <div id="toppanel">
     <button onclick="location.href='/employeelist'" class="btn1" style="position:relative;left:10px;top:10px;width:15%;border:2px white;border-radius:10px;" >Employee List</button>
@@ -50,7 +55,7 @@ tr:nth-child(even) {
     <th style="background-color:#0000ffb3;color:white">First name</th>
     <th style="background-color:#0000ffb3;color:white;">Last name</th>
       <th style="background-color:#0000ffb3;color:white;border:none;">Department</th>
-      <th style="background-color:#0000ffb3;color:white;">Reports</th>
+     <!-- <th style="background-color:#0000ffb3;color:white;">Reports</th>-->
   </tr>
         {% for y in employees %}
         <tr>
@@ -58,7 +63,7 @@ tr:nth-child(even) {
     <td>{{ y.firstname }}</td>
     <td>{{ y.lastname }}</td>
             <td>{{ y.role }}</td>
-            <td><button type="submit" style="background-color:white;border-radius:5px;border-color:orange;color:orange;">Download PDF</button></td>
+           <!-- <td><a href="/report"><button type="submit" style="background-color:white;border-radius:5px;border-color:orange;color:orange;">Download PDF</button></a></td>-->
   </tr>
         {% endfor %}
     </table>
