@@ -32,7 +32,7 @@ class Timecalc(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f'{self.time}  --- {self.checkstate}'
+        return f'{self.time}  --- {self.checkstate} --- {self.employee}'
 
 class Leave(models.Model):
     full_day_or_half_day_date_or_late_comming_or_early_logout_time = models.CharField(max_length=12,blank=True,null=True)

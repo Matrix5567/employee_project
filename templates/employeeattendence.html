@@ -35,9 +35,10 @@
     top:-32px;
     width:14%;
     border:2px white;
-    border-radius:10px;
+    border-radius:5px;
     font-size:18px;
-    background-color:lightblue;
+    background-color:blue;
+    color:white;
     }
      #inofficehours{
     position:relative;
@@ -45,9 +46,10 @@
     top:-58px;
     width:14%;
     border:2px white;
-    border-radius:10px;
+    border-radius:5px;
     font-size:18px;
-    background-color:#FFD580;
+    background-color:blue;
+    color:white;
     }
     #table{
     position:relative;
@@ -128,8 +130,7 @@ $.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user+"&date="+date, fun
 </div>
 <h4 style="position:relative;top:44px;left:901px;font-size:16px;" >Date:</h4>
 <div style="position:relative;top:6px;left:969px;">
-    <input  type="date"style="position:relative;top:0px;left:-19px;border-radius:10px;" onchange="checkin(this.id)" id="date" name="date" value="2022-06-01" >
-<!--<p id="datetime" style="position:relative;top:0px;left:-19px;"></p>-->
+    <input  type="date"style="position:relative;top:0px;left:-19px;border-radius:10px;" onchange="checkin(this.id)" id="date" name="date" value="2022-06-01">
     <h4 style="position:relative;top:-34px;left:155px;font-size:16px;">Employee Name:</h4>
     <select style="position:relative;top:-72px;left:281px;font-size:19px;width: 192px;border-radius:5px;background-color:white;" id="emp" name="emp" onload="checkin(this.id)" onchange="checkin(this.id)">
     <option>Select Employee</option>
@@ -148,18 +149,17 @@ $.get("http://127.0.0.1:8000/savingtime?id="+id+"&user="+user+"&date="+date, fun
     InOffice Hours:<span style="position:relative;top:1px;left:31px;" id="totalo"></span>
 </div>
 <div id="buttons">
-    <button type="submit" style="position:relative;top:-86px;left:947px;background-color:#90ee90;white;border-radius:10px;" onclick="checkin(this.id)" id="CHECK IN">CHECK IN</button>
-    <button type="submit" style="position:relative;top:-86px;left:965px;background-color:#90ee90;white;border-radius:10px;"onclick="checkin(this.id)" id="CHECK OUT">CHECK OUT</button>
-    <button type="submit" style="position:relative;top:-86px;left:978px;background-color:#ffcccb;white;border-radius:10px;width:91px;"onclick="checkin(this.id)" id="BREAK">BREAK</button>
-    <button type="submit" style="position:relative;top:-86px;left:1010px;background-color:#ffcccb;white;border-radius:10px;width:129px;white-space: nowrap;"onclick="checkin(this.id)" id="BACK TO WORK">BACK TO WORK</button>
+    <button type="submit" style="position:relative;top:-86px;left:947px;background-color:blue;color:white;border-radius:5px;" onclick="checkin(this.id)" id="CHECK IN">CHECK IN</button>
+    <button type="submit" style="position:relative;top:-86px;left:965px;background-color:blue;color:white;border-radius:5px;"onclick="checkin(this.id)" id="CHECK OUT">CHECK OUT</button>
+    <button type="submit" style="position:relative;top:-86px;left:978px;background-color:blue;color:white;border-radius:5px;width:91px;"onclick="checkin(this.id)" id="BREAK">BREAK</button>
+    <button type="submit" style="position:relative;top:-86px;left:1010px;background-color:blue;color:white;border-radius:5px;width:129px;white-space: nowrap;"onclick="checkin(this.id)" id="BACK TO WORK">BACK TO WORK</button>
 </div>
-<button type="submit" style="position:relative;top:-44px;left:1309px;background-color:#90ee90;white;border-radius:10px;width:135px;white-space: nowrap;" onclick="checkin(this.id)" id="FULL DAY LEAVE">FULL DAY LEAVE</button>
-<button type="submit" style="position:relative;top:2px;left:1172px;background-color:#90ee90;white;border-radius:10px;width:135px;white-space: nowrap;" onclick="checkin(this.id)" id="HALF DAY LEAVE">HALF DAY LEAVE</button>
-<button type="submit" style="position:relative;top:50px;left:1038px;background-color:#90ee90;white;border-radius:10px;width:129px;white-space: nowrap;" onclick="passleave(this.id)" id="EARLY LOGOUT">EARLY LOGOUT</button>
-<button type="submit" style="position:relative;top:92px;left:907px;background-color:#90ee90;white;border-radius:10px;width:129px;white-space: nowrap;" onclick="passleave(this.id)" id="LATE COMMING">LATE COMMING</button>
+<button type="submit" style="position:relative;top:-44px;left:1309px;background-color:orange;color:white;border-radius:5px;width:135px;white-space: nowrap;" onclick="checkin(this.id)" id="FULL DAY LEAVE">FULL DAY LEAVE</button>
+<button type="submit" style="position:relative;top:2px;left:1172px;background-color:orange;color:white;border-radius:5px;width:135px;white-space: nowrap;" onclick="checkin(this.id)" id="HALF DAY LEAVE">HALF DAY LEAVE</button>
+<button type="submit" style="position:relative;top:50px;left:1038px;background-color:orange;color:white;border-radius:5px;width:129px;white-space: nowrap;" onclick="passleave(this.id)" id="EARLY LOGOUT">EARLY LOGOUT</button>
+<button type="submit" style="position:relative;top:92px;left:907px;background-color:orange;color:white;border-radius:5px;width:129px;white-space: nowrap;" onclick="passleave(this.id)" id="LATE COMMING">LATE COMMING</button>
 <input type="text" style="position:relative;top:92px;left:683px;width:86px;border-radius:10px;"  id="latecomming">
 <input type="text" style="position:relative;top:51px;left:591px;width:86px;border-radius:10px;"  id="earlylogout">
-
 
 <div id="table">
 

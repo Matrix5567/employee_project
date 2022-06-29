@@ -25,8 +25,9 @@ SECRET_KEY = 'django-insecure-#&wa=*vjgk&o&ev$+rm#*eh@^=@+7ypt*s^+%at!zlso4c2wl@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io']
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'employeapp'
+    'employeapp',
 ]
 
 AUTH_USER_MODEL = 'employeapp.CustomUser'

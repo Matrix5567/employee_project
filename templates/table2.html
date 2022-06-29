@@ -5,16 +5,19 @@
              <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Break</th>
              <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Back to work</th>
              <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Check OUT</th>
+        <th style="background-color:#0000ffb3;color:white;white-space: nowrap;">Early logout/Late comming time</th>
     </tr>
     {% for a,b,c,d in times %}
     <tr>
 
-    <td>{{a|date:'Y-M-d'}}</td>  <!-- date -->
-    <td>{{a|date:"H:i"}}</td>   <!-- checking -->
-        <td>{{b|date:"H:i"}}</td>  <!-- checkout -->
+    <td>{{a|date:'Y-M-d'}}</td>
+    <td>{{a|date:"H:i"}} </td>
+        <td>{{b|date:"H:i"}}</td>
         <td>{{c|date:"H:i"}}</td>
         <td>{{d|date:"H:i"}}</td>
-
+        {% if forloop.first %}
+    <td style="color:red;">{{leave}} {{time}}</td>
+        {%endif%}
 
 </tr>
     {% endfor %}
