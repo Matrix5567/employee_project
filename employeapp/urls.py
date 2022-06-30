@@ -1,5 +1,5 @@
 from django.urls import path
-from.views import Home,Login,Dashboard,Users,Addemployee,Saveemployee,Employeeattendence,Savingtime,Buttonstate,Totaltiming,Leavings,Reports,Reportsemployee
+from.views import Home,Login,Dashboard,Users,Addemployee,Saveemployee,Employeeattendence,Savingtime,Buttonstate,Totaltiming,Leavings,Reports,Reportsemployee,Pdf
 from. import views
 
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path("leave",Leavings.as_view() , name="leave"),
     path("reportsemployee", Reportsemployee.as_view(), name="reportsemployee"),
     path("reports",Reports.as_view() , name="reports"),
+    path("pdf", Pdf.as_view(),name="pdf"),
 
 
 

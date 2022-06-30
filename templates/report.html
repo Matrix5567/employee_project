@@ -1,6 +1,6 @@
 {% extends 'sidebar.html' %}
 {% block content %}
-<style>
+<style xmlns="http://www.w3.org/1999/html">
      #toppanel{
     position:relative;
     top:20px;
@@ -49,10 +49,26 @@ $.get("http://127.0.0.1:8000/reports?id="+id+"&user="+user+"&fromdate="+fromdate
    document.getElementById("table2").innerHTML = data;
 
    });
+}
 
 
+    function pdf(id) {
 
-   }
+document.getElementById(id);
+var user = document.getElementById("emp").value;
+var fromdate = document.getElementById("fromdate").value;
+var todate = document.getElementById("todate").value;
+
+$.get("http://127.0.0.1:8000/pdf?userpdf="+user+"&fromdatepdf="+fromdate+"&todatepdf="+todate, function(data, status)
+   {
+
+    //document.getElementById("download").innerHTML = "<a href='/pdf'>download file</a>";
+   });
+
+
+}
+
+
 </script>
 <div id="toppanel">
     <h4 style="position:relative;top:15px;left:11px;font-size:16px;" >From Date:</h4>
@@ -66,7 +82,7 @@ $.get("http://127.0.0.1:8000/reports?id="+id+"&user="+user+"&fromdate="+fromdate
         <option value="{{ y.id }}">{{ y.firstname }} {{ y.lastname }}</option>
         {% endfor %}
   </select>
-    <!--<a href="#"><button type="submit" style="background-color:white;border-radius:5px;border-color:orange;color:orange;position:relative;top:-116px;left:787px;">Download Report</button></a>-->
+   <a href="/pdf"><button type="submit" style="background-color:white;border-radius:5px;border-color:orange;color:orange;position:relative;top:-116px;left:787px;" onclick="pdf()" id="download">Download Report</button></a>
 </div>
 
 <div id="table2">

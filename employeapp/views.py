@@ -2,7 +2,7 @@ import time
 
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from datetime import datetime
+from django.views import View
+from fpdf import FPDF
 
 class Home(View):
     def get(self, request):
@@ -68,12 +70,9 @@ class Dashboard(View):
             rang = len(checkin)
         for i in range(0,rang):
             totalhours+= ((checkout[i]-checkin[i]).seconds/3600)
-        print("totalbreakhours",totalbreakhours)
-        print("totalhours", totalhours)
         totalbreakhours=abs(round(totalbreakhours, 2))
         averageintime = totalhours-totalbreakhours
         averageintime = abs(round(averageintime, 2))
-        print("checkin",len(checkin))
         averagehours = averageintime/len(checkin)
         averagehours = abs(round(averagehours, 2))
         return render(request,'dashboard.html',{'averageintime':averageintime,'totalbreakhours':totalbreakhours,'averagehours':averagehours})
@@ -285,6 +284,64 @@ class Reportsemployee(View):                 ## rendering report page
     def get(self,request):
         y = Employee.objects.all()
         return render(request, 'report.html', {'employees': y})
+
+@method_decorator(login_required,name='dispatch')
+class Pdf(View):
+    def get(self, request):
+        employee = request.GET.get('userpdf')
+        fromdate = request.GET.get('fromdatepdf')
+        todate = request.GET.get('todatepdf')
+        print("emp???",employee)
+        print("from???",fromdate)
+        print("to???",todate)
+        name=''
+        y = Employee.objects.filter(id=employee)
+        for i in y:
+            name=i.firstname+" "+ i.lastname
+        print("name",name)
+        pdf = FPDF(format='letter', unit='in')
+
+        # Add new page. Without this you cannot create the document.
+        pdf.add_page()
+
+        # Remember to always put one of these at least once.
+        pdf.set_font('Times', '', 10.0)
+
+        # Effective page width, or just epw
+        epw = pdf.w - 5 * pdf.l_margin
+
+        # Set column width to 1/4 of effective page width to distribute content
+        # evenly across table and page
+        col_width = epw / 5
+
+        # Since we do not need to draw lines anymore, there is no need to separate
+        # headers from data matrix.
+
+        data = [['Date', 'Check in', 'Break', 'Back to work', 'Checkout', 'Late/Earlylogout'],
+                ['2022-Jun-29', '12:59', '13:03', '13:04', '16:18', 'early logout 4:18 pm'],
+                ['', '', '13:52', '13:52'], ['', '', '16:14', '16:14']
+                ]
+
+        # Document title centered, 'B'old, 14 pt
+        pdf.set_font('Times', 'B', 14.0)
+        pdf.cell(epw, 0.0, name, align='C')
+        pdf.set_font('Times', '', 10.0)
+        pdf.ln(0.5)
+
+        # Text height is the same as current font size
+        th = pdf.font_size
+        # Here we add more padding by passing 2*th as height
+        for row in data:
+            for datum in row:
+                # Enter data in colums
+                pdf.cell(col_width, 2 * th, str(datum), border=1)
+
+            pdf.ln(2 * th)
+
+        pdf.output('table-using-cell-borders.pdf', 'F')
+        return FileResponse(open('table-using-cell-borders.pdf', 'rb'), as_attachment=False,
+                            content_type='application/pdf')
+
 
 
 
